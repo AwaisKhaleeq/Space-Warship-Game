@@ -1,0 +1,221 @@
+/*
+#include<iostream>
+#include <SFML/Graphics.hpp>
+using namespace std;
+using namespace sf;
+
+class beta : public invader
+{
+public:
+	beta()
+	{
+		tex.loadFromFile("img/enemy_2.png");
+		shape.setTexture(tex);
+		shape.setPosition(rand() %200 ,0 );
+		shape.setScale(0.7,0.7);
+		maxtime = 50.f;
+		timer = maxtime;
+		b = nullptr;
+		counter =5;
+	}
+	
+	beta( float x, float y, float speed)
+	{
+		tex.loadFromFile("img/enemy_2.png");
+		shape.setTexture(tex);
+		shape.setPosition(x ,y );
+		shape.setScale(0.7,0.7);
+		maxtime = 50.f;
+		timer = maxtime;
+		b = nullptr;
+		counter =5;
+		movspeed = speed;
+	
+	}
+	virtual void update() 
+	 { 
+	 	//timer +=0.5f;
+	 	//if(timer>= maxtime)
+	 	
+	 	//timer = 0.f;
+	 	
+        	shape.move(0 , movspeed );
+ 	 }
+ 	 
+  virtual Sprite& getTexture() 
+   {
+        return shape;
+   }
+   
+   virtual void loadsprite() override
+	{
+		tex.loadFromFile("img/enemy_2.png");
+		shape.setTexture(tex);
+	}
+
+	
+	int score(int &s)
+	{
+		s+=20;
+		return s;
+	}
+
+
+void fire()
+{
+ 
+// cout<<"fire\n";  
+float x1 = shape.getPosition().x;
+float y1 = shape.getPosition().y;
+
+if(b == nullptr)
+    b = new Bullet("img/enemy_laser.png", x1, y1, 0.2f);
+
+}
+
+
+
+};
+
+
+*/
+
+#include<iostream>
+#include <SFML/Graphics.hpp>
+using namespace std;
+using namespace sf;
+
+class beta : public invader
+{
+public:
+
+	beta()
+	{
+		tex.loadFromFile("img/enemy_1.png");
+		shape.setTexture(tex);
+		shape.setPosition(rand() %200 ,0 );
+		shape.setScale(0.7,0.7);
+		maxtime = 50.f;
+		timer = maxtime;
+		b = nullptr;
+		counter =5;
+		lasttime= 0;
+		flag = false;
+		
+	}
+	
+	beta( float x, float y, float speed)
+	{
+		tex.loadFromFile("img/enemy_1.png");
+		shape.setTexture(tex);
+		shape.setPosition(x ,y );
+		shape.setScale(0.7,0.7);
+		maxtime = 50.f;
+		timer = maxtime;
+		b = nullptr;
+		counter =5;
+		movspeed = speed;
+		
+	
+	}
+
+	virtual void update() 
+	 { 
+	
+	 	
+	 	
+	 	
+        	shape.move(movspeed , 0 );
+        	float x1 = shape.getPosition().x;
+		float y1 = shape.getPosition().y;
+		
+		if(x1>700)
+		{
+		//while(x1<0)
+		shape.setPosition(0,y1);
+		}
+ 	 }
+ 	 
+  virtual Sprite& getTexture() 
+   {
+        return shape;
+   }
+   
+   virtual void loadsprite() override
+	{
+		tex.loadFromFile("img/enemy_2.png");
+		shape.setTexture(tex);
+	}
+	
+	int score(int &s)
+	{
+		s+=20;
+		return s;
+	}
+
+
+
+
+
+void fire()
+{
+ 
+ //cout<<"fire\n";  
+float x1 = shape.getPosition().x;
+float y1 = shape.getPosition().y;
+
+if(b == nullptr)
+    b = new Bullet("img/enemy_laser.png", x1, y1, 0.2f);
+
+}
+
+virtual bool check(Sprite &shape1, Sprite& shape2)
+{
+	float x1 = shape1.getPosition().x;
+	float y1 = shape1.getPosition().y;
+	float sw1 = shape1.getTexture()->getSize().x;
+	float sh1 = shape1.getTexture()->getSize().y;
+			
+	float x2  = shape2.getPosition().x;
+	float y2  = shape2.getPosition().y;
+	float sw2 = shape2.getTexture()->getSize().x;
+	float sh2 = shape2.getTexture()->getSize().y;
+	
+	if(x2 < x1+sw1 && x2+sw2< x1 && y2< y1+sh1 && y2+sh2 > y1  )
+	{	
+		return true;
+	}
+	
+	else
+	return false;
+
+}
+
+virtual bool timecheck(float t)
+{
+if(t - lasttime > 3)
+{
+flag = true;
+lasttime = t;
+}
+
+else
+flag = false;
+
+
+
+return flag;
+	
+}
+
+};
+
+
+
+
+
+
+
+
+
+
